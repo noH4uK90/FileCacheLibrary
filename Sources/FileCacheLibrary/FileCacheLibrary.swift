@@ -78,14 +78,6 @@ private extension FileCacheLibrary {
      */
     func saveJSON(_ objects: [T], to path: URL) throws {
         do {
-            let json = objects.map { $0.json }
-            
-            if JSONSerialization.isValidJSONObject(json) == false {
-                throw JSONError.notValidObject(object: """
-                    \(json)
-                """)
-            }
-            
             let jsonData = try JSONSerialization.data(withJSONObject: objects.map({ $0.json }), options: [])
             try jsonData.write(to: path)
         } catch let error as EncodingError {

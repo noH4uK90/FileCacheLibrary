@@ -22,13 +22,10 @@ public enum FileError: Error {
 }
 
 public enum JSONError: Error {
-    case notValidObject(object: String)
     case jsonSerializationError(Error)
     
     var localizedDescription: String {
         switch self {
-        case .notValidObject(let object):
-            return "Not valid object: \(object)"
         case .jsonSerializationError(let error):
             return "Serialization error: \(error.localizedDescription)"
         }
