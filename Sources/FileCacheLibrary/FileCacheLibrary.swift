@@ -18,7 +18,7 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
        - fileExtension: The extension of the file (default is .json).
        - separator: The separator character for CSV files (default is ";").
      */
-    func saveToFile(_ objects: [T], to fileName: String = "todos", extension fileExtension: FileExtension = .json, _ separator: Character = ";") throws {
+    public func saveToFile(_ objects: [T], to fileName: String = "todos", extension fileExtension: FileExtension = .json, _ separator: Character = ";") throws {
         do {
             let path = try getFileURL(fileName: fileName, fileExtension: fileExtension)
             switch fileExtension {
@@ -41,7 +41,7 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
        - separator: The separator character for CSV files (default is ";").
      - Returns: An array of objects read from the file.
      */
-    func exportFromFile(from fileName: String = "todos", extension fileExtension: FileExtension = .json, _ separator: Character = ";") throws -> [T] {
+    public func exportFromFile(from fileName: String = "todos", extension fileExtension: FileExtension = .json, _ separator: Character = ";") throws -> [T] {
         do {
             let path = try getFileURL(fileName: fileName, fileExtension: fileExtension)
             switch fileExtension {
