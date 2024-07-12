@@ -7,6 +7,8 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
     
     private let fileManager = FileManager.default
     
+    public init() {}
+    
     /**
      Saves an array of objects to a file with the specified name and extension.
      
