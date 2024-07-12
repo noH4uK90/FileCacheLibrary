@@ -3,7 +3,7 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class FileCacheLibrary<T: JSONable & CSVable> {
     
     private let fileManager = FileManager.default
@@ -121,7 +121,7 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
 }
 
 // MARK: Extension for work with JSON
-@available(macOS 10.15, *)
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 private extension FileCacheLibrary {
     /**
      Saves an array of objects to a JSON file at the specified path.
@@ -166,7 +166,7 @@ private extension FileCacheLibrary {
 }
 
 // MARK: Extension for work with CSV
-@available(macOS 10.15, *)
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 private extension FileCacheLibrary {
     
     /**

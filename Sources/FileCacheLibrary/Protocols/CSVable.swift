@@ -7,7 +7,7 @@
 
 import Foundation
 
-@available(macOS 10.15, *)
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol CSVable: Identifiable {
     static var fieldNames: [String] { get }
     var csv: (Character) -> String { get }
