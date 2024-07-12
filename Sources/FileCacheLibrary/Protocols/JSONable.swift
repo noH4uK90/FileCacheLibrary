@@ -7,7 +7,8 @@
 
 import Foundation
 
-public protocol JSONable {
+@available(macOS 10.15, *)
+public protocol JSONable: Identifiable {
     var json: Any { get }
     
     static func parse(json: Any) -> Self?

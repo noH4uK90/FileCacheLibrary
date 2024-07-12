@@ -3,11 +3,41 @@
 
 import Foundation
 
+@available(macOS 10.15, *)
 public final class FileCacheLibrary<T: JSONable & CSVable> {
     
     private let fileManager = FileManager.default
+    public private(set) var objects: [T] = []
     
     public init() {}
+    
+    /**
+     Add object to array.
+     
+     - Parameters:
+       - object: The object to add.
+     */
+    public func add(_ object: T?) {
+        guard let object = object else {
+            return
+        }
+        
+        if objects.first(where: { $0.id == object.id }) != nil {
+            return
+        }
+        
+        objects.append(object)
+    }
+    
+    /**
+     Delete an object from object array.
+     
+     - Parameters:
+       - id: Id of object to be deleted.
+     */
+    public func delete(_ id: T.ID) {
+        objects.removeAll(where: { $0.id == id })
+    }
     
     /**
      Saves an array of objects to a file with the specified name and extension.
@@ -33,6 +63,28 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
     }
     
     /**
+     Saves an array of objects to a file with the specified name and extension.
+     
+     - Parameters:
+       - fileName: The name of the file (default is "todos").
+       - fileExtension: The extension of the file (default is .json).
+       - separator: The separator character for CSV files (default is ";").
+     */
+    public func saveToFile(to fileName: String = "todos", extension fileExtension: FileExtension = .json, _ separator: Character = ";") throws {
+        do {
+            let path = try getFileURL(fileName: fileName, fileExtension: fileExtension)
+            switch fileExtension {
+            case .json:
+                try saveJSON(self.objects, to: path)
+            case .csv:
+                try saveCSV(self.objects, to: path, separator)
+            }
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    /**
      Exports an array of objects from a file with the specified name and extension.
      
      - Parameters:
@@ -46,9 +98,11 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
             let path = try getFileURL(fileName: fileName, fileExtension: fileExtension)
             switch fileExtension {
             case .json:
-                return try exportJSON(from: path)
+                self.objects = try exportJSON(from: path)
+                return self.objects
             case .csv:
-                return try exportCSV(from: path, separator)
+                self.objects = try exportCSV(from: path, separator)
+                return self.objects
             }
         } catch {
             throw error
@@ -67,6 +121,7 @@ public final class FileCacheLibrary<T: JSONable & CSVable> {
 }
 
 // MARK: Extension for work with JSON
+@available(macOS 10.15, *)
 private extension FileCacheLibrary {
     /**
      Saves an array of objects to a JSON file at the specified path.
@@ -111,6 +166,7 @@ private extension FileCacheLibrary {
 }
 
 // MARK: Extension for work with CSV
+@available(macOS 10.15, *)
 private extension FileCacheLibrary {
     
     /**
